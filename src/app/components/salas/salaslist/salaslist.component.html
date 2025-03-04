@@ -1,0 +1,55 @@
+<div class="container mt-4">
+
+  <div class="container mt-4">
+
+    <div class="row justify-content-between mb-3">
+      <div class="col-6">
+        <span class="fs-2 fw-medium" style="color: #6E6DE2;">Salas</span>
+      </div>
+      <div class="col-6 text-end">
+        <button type="button" class="btn btn-lg btn-outline-info fw-medium"
+          (click)="adicionar(modal1)">NOVO</button>
+      </div>
+    </div>
+    <table class="table table-bordered rounded">
+      <tbody *ngIf="lista && lista.length > 0 else semSalas" class="fw-semibold rounded">
+        <tr *ngFor="let sala of lista; let i = index">
+          <td class="text-start align-middle">{{ sala.nome }}</td>
+          <td class="text-start align-middle" style="color: #6E6DE2;">
+            {{ sala.alunos && sala.alunos.length > 0 ? sala.alunos.length + ' ALUNOS' : 'Nenhum aluno' }}
+          </td>
+          <td class="text-end align-middle">
+            <a (click)="editar(modal1, sala, i)" class="btn me-3"
+              data-toggle="tooltip" title="Editar">
+              <i class="bi bi-eye-fill fs-5" style="color: #6E6DE2;"></i>
+            </a>
+            <a class="btn me-5" data-toggle="tooltip" title="Excluir">
+              <i class="bi bi-trash-fill fs-5 text-danger"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <ng-template #semSalas>
+        <tbody>
+          <tr>
+            <td colspan="3" class="text-center">Não há salas cadastradas</td>
+          </tr>
+        </tbody>
+      </ng-template>
+
+    </table>
+  </div>
+
+  <ng-template #modal1 let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ msgModal }}</h4>
+        <button type="button" class="btn-close" aria-label="Close"
+          (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <app-salasdetails [sala]="objetoSelecionadoParaEdicao"
+          (retorno)="addOuEditar()"></app-salasdetails>
+      </div>
+    </div>
+  </ng-template>

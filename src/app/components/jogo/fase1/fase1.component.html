@@ -1,0 +1,269 @@
+<div class="fundo">
+<br>
+  <div style="margin-left: 5%; position: absolute;" class="col-md-2">
+    <h3>Acertos: <b>{{acertos}}</b></h3>
+    <h3>Erros: <b>{{erros}}</b></h3>
+    <h3>Pontuacao: <b>{{pontuacaoTotal}}</b></h3>
+    <!-- <h3>{{mensagemColisao}} </h3> -->
+    <!-- <h3 *ngIf="arrastando">Arrastando! </h3> -->
+
+    <button (click)="avancaFase()" class="btn btn-success mb-2" #botaoProximaFase style="display: none;">Avançar para a Próxima Fase</button>
+
+    <button type="button" class="btn btn-outline-success" (click)="adicionar(modal1)">SALVAR</button>
+  </div>
+
+
+<div class="container col-md-9">
+      <h3>Arraste os itens <b>Do LIXO</b> para suas Lixeiras:</h3><br>
+
+      <div cdkDropListGroup class="row col-lg-12">
+
+        <!-- LIXOS FASE 1 -->
+        <div class="col-lg-2" #fase1LixosContainer>
+            <h2>Lixos</h2>
+            <div id="fase1Lixos" cdkDropList [cdkDropListData]="fase1Lixos" class="example-list" (cdkDropListDropped)="drop($event)">
+              <div *ngFor="let item of fase1Lixos" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+        </div>
+        <!-- LIXOS FASE 2 -->
+        <div class="col-lg-2" #fase2LixosContainer style="display: none;">
+            <h2>Lixos</h2>
+            <div id="fase2Lixos" cdkDropList [cdkDropListData]="fase2Lixos" class="example-list" (cdkDropListDropped)="drop($event)">
+              <div *ngFor="let item of fase2Lixos" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+        </div>
+
+        <!-- LIXOS FASE 3 -->
+        <div class="col-lg-2" #fase3LixosContainer style="display: none;">
+            <h2>Lixos</h2>
+            <div id="fase3Lixos" cdkDropList [cdkDropListData]="fase3Lixos" class="example-list" (cdkDropListDropped)="drop($event)">
+              <div *ngFor="let item of fase3Lixos" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+        </div>
+
+        <!-- LIXOS FASE 4 -->
+        <div class="col-lg-2" #fase4LixosContainer style="display: none;">
+            <h2>Lixos</h2>
+            <div id="fase4Lixos" cdkDropList [cdkDropListData]="fase4Lixos" class="example-list" (cdkDropListDropped)="drop($event)">
+              <div *ngFor="let item of fase4Lixos" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+        </div>
+
+        <!-- LIXOS FASE 5 -->
+        <div class="col-lg-2" #fase5LixosContainer style="display: none;">
+            <h2>Lixos</h2>
+            <div id="fase5Lixos" cdkDropList [cdkDropListData]="fase5Lixos" class="example-list" (cdkDropListDropped)="drop($event)">
+              <div *ngFor="let item of fase5Lixos" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-1"> <br> </div>
+
+      <!-- LIXEIRAS FASE 1 -->
+        <div class="col-lg-8 row" #fase1LIXEIRAContainer>
+          <div class="col-md-3" >
+            <h2>ORGANICO</h2>
+            <div id="organico" cdkDropList [cdkDropListData]="organico" class="organicoLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of organico" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1"> <br> </div>
+
+          <div class="col-md-3" >
+            <h2>PAPEL</h2>
+            <div id="papel" cdkDropList [cdkDropListData]="papel" class="papelLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of papel" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- LIXEIRAS FASE 2 -->
+        <div class="col-lg-8 row" #fase2LIXEIRAContainer style="display: none;">
+          <div class="col-md-3">
+            <h2>ORGANICO</h2>
+            <div id="organico" cdkDropList [cdkDropListData]="organico" class="organicoLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of organico" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1"> <br> </div>
+
+          <div class="col-md-3" >
+            <h2>VIDRO</h2>
+            <div id="vidro" cdkDropList [cdkDropListData]="vidro" class="vidroLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of vidro" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIXEIRAS FASE 3 -->
+        <div class="col-lg-8 row" #fase3LIXEIRAContainer style="display: none;">
+          <div class="col-md-3">
+            <h2>METAL</h2>
+            <div id="metal" cdkDropList [cdkDropListData]="metal" class="metalLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of metal" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1"> <br> </div>
+
+          <div class="col-md-3" >
+            <h2>VIDRO</h2>
+            <div id="vidro" cdkDropList [cdkDropListData]="vidro" class="vidroLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of vidro" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1"> <br> </div>
+
+          <div class="col-md-3" >
+            <h2>PAPEL</h2>
+            <div id="papel" cdkDropList [cdkDropListData]="papel" class="papelLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of papel" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIXEIRAS FASE 4 -->
+        <div class="col-lg-8 row" #fase4LIXEIRAContainer style="display: none;">
+          <div class="col-md-3">
+            <h2>ORGANICO</h2>
+            <div id="organico" cdkDropList [cdkDropListData]="organico" class="organicoLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of organico" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1"> <br> </div>
+
+          <div class="col-md-3" >
+            <h2>METAL</h2>
+            <div id="metal" cdkDropList [cdkDropListData]="metal" class="metalLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of metal" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1"> <br> </div>
+
+          <div class="col-md-3" >
+            <h2>PLASTICO</h2>
+            <div id="plastico" cdkDropList [cdkDropListData]="plastico" class="plasticoLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of plastico" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3" >
+            <h2>PAPEL</h2>
+            <div id="papel" cdkDropList [cdkDropListData]="papel" class="papelLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of papel" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- LIXEIRAS FASE 5 -->
+        <div class="col-lg-8 row" #fase5LIXEIRAContainer style="display: none;">
+
+          <div class="col-md-3 lixeiranova">
+            <h2>PAPEL</h2>
+            <div id="papel" cdkDropList [cdkDropListData]="papel" class="papelLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of papel" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1 lixeiranova"> <br> </div>
+
+          <div class="col-md-3 lixeiranova" >
+            <h2>VIDRO</h2>
+            <div id="vidro" cdkDropList [cdkDropListData]="vidro" class="vidroLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of vidro" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1 lixeiranova"> <br> </div>
+
+          <div class="col-md-3 lixeiranova" >
+            <h2>PLASTICO</h2>
+            <div id="plastico" cdkDropList [cdkDropListData]="plastico" class="plasticoLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of plastico" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 lixeiranova" >
+            <h2>ORGANICO</h2>
+            <div id="organico" cdkDropList [cdkDropListData]="organico" class="organicoLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of organico" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1 lixeiranova"> <br> </div>
+
+          <div class="col-md-3 lixeiranova" >
+            <h2>METAL</h2>
+            <div id="metal" cdkDropList [cdkDropListData]="metal" class="metalLixeira" (cdkDropListDropped)="drop($event)" (mouseover)="onDragOver($event)" (mouseout)="onDragOut($event)">
+              <div *ngFor="let item of metal" class="example-box" cdkDrag (cdkDragStarted)="arrastando = true" (cdkDragEnded)="arrastando = false">
+                <img class="tamanhoIMG" [src]="item.url" />
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    <br>
+
+    </div>
+
+  </div>
+
+    <ng-template #modal1 let-modal>
+      <div class="modal-header">
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+
+           <app-salvar-jogo [score]="pontuacaoTotal" (retorno)="addOuEditarPontos($event)" ></app-salvar-jogo>
+
+      </div>
+
+  </ng-template>

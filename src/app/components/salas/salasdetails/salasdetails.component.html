@@ -1,0 +1,59 @@
+<form (ngSubmit)="salvar()">
+  <div class="mb-3">
+    <label for="name-input" class="form-label fw-semibold" style="color: #858585">Nome</label>
+    <input type="text" class="form-control" name="name-input" aria-describedby="emailHelp" [(ngModel)]="sala.nome">
+
+    <div class="d-flex justify-content-end mt-4 ">
+    <div>
+      <button class="btn btn-outline-primary ms-4 me-2" type="button"  (click)="adicionarAluno(modal1)">Adicionar Aluno</button>
+    </div>
+    <div>
+    <button type="submit" class="btn btn-outline-success">SALVAR</button>
+  </div>
+  </div>
+</div>
+</form>
+
+
+
+<table class="table table-bordered rounded">
+  <tbody class="fw-semibold rounded">
+    <tr *ngFor="let aluno of sala.alunos; let i = index">
+      <td class="text-start align-middle">{{ aluno.nome }}</td>
+      <td class="text-start align-middle" style="color: #6e6de2">
+        {{ aluno.idade }} ANOS
+      </td>
+
+      <!-- <td class="text-end align-middle">
+        <a (click)="editar(modal1, aluno, i)" class="btn me-3" data-toggle="tooltip" title="Editar">
+          <i class="bi bi-eye-fill fs-5" style="color: #6e6de2"></i>
+        </a>
+        <a (click)="delete(i)" class="btn me-5" data-toggle="tooltip" title="Excluir">
+          <i class="bi bi-trash-fill fs-5 text-danger"></i>
+        </a>
+      </td> -->
+
+    </tr>
+  </tbody>
+  <ng-template #semAlunos>
+    <tbody>
+      <tr>
+        <td colspan="3" class="text-center">Não há alunos</td>
+      </tr>
+    </tbody>
+  </ng-template>
+</table>
+<!-- Add an input for professor ID -->
+<!-- <label for="professor-id-input" class="form-label fw-semibold" style="color: #858585">ID do Professor</label>
+<input type="text" class="form-control" name="professor-id-input" [(ngModel)]="sala.professor.id"> -->
+
+
+<ng-template #modal1 let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title"></h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+      <app-alunosdetails [aluno]="alunoSelecionadoParaEdicao"  (retorno)="retornoAluno($event)"></app-alunosdetails>
+  </div>
+</ng-template>

@@ -1,0 +1,19 @@
+<form (ngSubmit)="salvar()">
+  <div class="mb-3">
+    <label for="age-input" class="form-label fw-semibold" style="color: #858585">ID</label>
+    <input type="number" min="1" max="99" class="form-control" name="age-input" [(ngModel)]="aluno.id">
+  </div>
+  
+  <div class="mb-3">
+    <label for="name-input" class="form-label fw-semibold" style="color: #858585">Nome</label>
+    <input type="text" class="form-control" name="name-input" [(ngModel)]="aluno.nome">
+  </div>
+  <div class="mb-3">
+    <label for="age-input" class="form-label fw-semibold" style="color: #858585">Idade</label>
+    <input type="number" min="1" max="99" class="form-control" name="age-input" [(ngModel)]="aluno.idade">
+  </div>
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-outline-success">SALVAR</button>
+
+  </div>
+</form>

@@ -1,0 +1,149 @@
+
+<div class="conteiner">
+  <div class="conteiner-2">
+    <div class="barra">
+      <h1>Acertos por sala</h1>
+      <canvas id="1" class="graficoBarra"></canvas>
+    </div>
+
+
+    <div class="pizza">
+      <h1>Lixeiras acertadas</h1>
+      <canvas id="pizza" class="graficoPizza"></canvas>
+    </div>
+
+    <div class="dropdown">
+    <a  class="dropbtn">Lixeiras</a>
+      <div class="dropdown-content">
+      <a (click)="DadosMetal()">Metal</a>
+      <a (click)="DadosOrganico()">Organico</a>
+      <a (click)="DadosVidro()">Vidro</a>
+      <a (click)="DadosPapel()">Papel</a>
+      <a (click)="DadosPlastico()">Plastico</a>
+      <a (click)="DadosTotais()">Acertos Totais</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbarr {
+    margin: 0;
+    width: 98vw;
+    height: 10vh;
+    background-color: #6E6DE2;
+  }
+
+  h1 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    -webkit-text-fill-color: white;
+  }
+
+  a {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  .conteiner {
+    width: 98vw;
+    height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .barra {
+    display: flex;
+    margin-left: 10vh;
+    width: 35vw;
+    height: 50vh;
+    align-items: center;
+    align-content: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+  }
+
+  .conteiner-2{
+    height: 60vh;
+    width: 88vw;
+    background-color: #7674ee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+
+  }
+
+  .pizza {
+    display: flex;
+    margin-left: 13vw;
+    width: 25vw;
+    height: 27h;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .graficoPizza {
+    height: 10vh;
+    width: 20vw;
+  }
+
+  .graficoBarra {
+    height: 27vh;
+    width: 28vw;
+    background-color: white;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 45vh;
+    margin-right: 2vh;
+  }
+
+  .dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+  }
+</style>
+

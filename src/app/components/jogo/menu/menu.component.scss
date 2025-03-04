@@ -1,0 +1,31 @@
+.menuJogo{
+    width: 100%;
+    display: block; 
+    margin: auto;
+}
+
+.telaJogo{
+    height: 90vh;
+    margin-top: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.imgBotao{
+    width: 50%;
+
+}
+
+button {
+    margin: 10px; 
+    position: absolute; 
+    top: 60%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+button:first-child {
+    top: 53%;
+}

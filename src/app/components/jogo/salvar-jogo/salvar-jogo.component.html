@@ -1,0 +1,134 @@
+<div class="row">
+  <div class="col-12">
+    <label for="roleSelect" class="form-label">Sala:</label>
+    <select id="roleSelect" class="form-select" [(ngModel)]="salaSelecionada"
+      name="exampleRole1">
+      <option *ngFor="let sala of salas" [ngValue]="sala">{{ sala.nome }}</option>
+    </select>
+
+  </div>
+  <div class="col-md-6">
+  </div>
+  <div class="col-md-6 text-end mt-2">
+    <button type="button" class="btn btn-outline-primary col-md-10" (click)="selecionarAluno(modalAlunos)" [disabled]="!salaSelecionada">
+      SELECIONAR ALUNO
+    </button>
+  </div>
+</div>
+
+
+
+
+<form (ngSubmit)="salvar()">
+
+  <div class="col-md-8 align-self-center">
+    <h3 *ngIf="pontos.aluno == null" class="col-md-10">Sem Aluno</h3>
+    <h5 *ngIf="pontos.aluno != null" class="col-md-10">
+      Aluno: {{ pontos.aluno.nome }}
+    </h5>
+  </div>
+
+  <div class="col-md-9 inputEndereco">
+    <div class="form-floating mb-3">
+      <input type="number" class="form-control inputEndereco " name="id"
+        placeholder="ID"
+        [(ngModel)]="pontos.id" />
+      <label for="id">ID</label>
+    </div>
+  </div>
+
+  <div class="col-md-9 inputEndereco">
+    <div class="form-floating mb-3">
+      <input disabled type="text" class="form-control inputEndereco "
+        name="score" placeholder="score"
+        [(ngModel)]="pontos.score" />
+      <label for="score">Pontos</label>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-outline-success">SALVAR</button>
+</form>
+
+<ng-template #modal1 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title"></h4>
+    <button type="button" class="btn-close" aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="modal-body">
+    <app-alunoslist [modoLancamento]="true" (alunoRetorno)="recebeAluno($event)"></app-alunoslist>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light"
+      (click)="modal.close('Close click')">
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #modalSala let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Selecionar Sala</h4>
+    <button type="button" class="btn-close" aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="modal-body">
+    <!-- Adicione a lista de salas e lógica de seleção aqui -->
+    <ul>
+      <li *ngFor="let sala of salas"
+        (click)="selecionarSalaEFecharModal(sala, modal)">
+        {{ sala.nome }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light"
+      (click)="modal.close('Close click')">
+      Fechar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #modalAlunos let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Selecionar Aluno</h4>
+    <button type="button" class="btn-close" aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="modal-body">
+    <!-- Tabela para exibir os alunos -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let aluno of alunosDaSala">
+          <td>{{ aluno.id }}</td>
+          <td>{{ aluno.nome }}</td>
+          <td>
+            <button type="button" class="btn btn-primary"
+              (click)="selecionarAlunoEFecharModal(aluno, modal)">
+              Selecionar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light"
+      (click)="modal.close('Close click')">
+      Fechar
+    </button>
+  </div>
+</ng-template>

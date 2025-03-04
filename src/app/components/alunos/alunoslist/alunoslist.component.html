@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <div class="container mt-4">
+    <div class="row justify-content-between mb-3">
+      <div class="col-6" style="align-self: center">
+        <span class="fs-4 fw-medium" style="color: #6e6de2">Alunos</span>
+      </div>
+      <div class="col-6 text-end">
+        <button type="button" class="btn btn-lg btn-outline-info fw-medium" (click)="adicionar(modal1)">
+          NOVO
+        </button>
+      </div>
+    </div>
+    <table class="table table-bordered rounded">
+      <tbody *ngIf="lista && lista.length > 0; else semAlunos" class="fw-semibold rounded">
+        <tr *ngFor="let aluno of lista; let i = index">
+          <td class="text-start align-middle">{{ aluno.nome }}</td>
+          <td class="text-start align-middle" style="color: #6e6de2">
+            {{ aluno.idade }} ANOS
+          </td>
+
+          <td class="text-end align-middle">
+            <a (click)="editar(modal1, aluno, i)" class="btn me-3" data-toggle="tooltip" title="Editar">
+              <i class="bi bi-eye-fill fs-5" style="color: #6e6de2"></i>
+            </a>
+            <a (click)="delete(i)" class="btn me-5" data-toggle="tooltip" title="Excluir">
+              <i class="bi bi-trash-fill fs-5 text-danger"></i>
+            </a>
+          </td>
+          <!-- <td *ngIf="modoLancamento"> <button class="btn btn-primary" (click)="lancamentoAluno(aluno)">Vincular</button> </td> -->
+
+
+        </tr>
+      </tbody>
+      <ng-template #semAlunos>
+        <tbody>
+          <tr>
+            <td colspan="3" class="text-center">Não há alunos</td>
+          </tr>
+        </tbody>
+      </ng-template>
+    </table>
+  </div>
+
+  <ng-template #modal1 let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ msgModal }}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <app-alunosdetails [aluno]="objetoSelecionadoParaEdicao" (retorno)="addOuEditar($event)"></app-alunosdetails>
+      </div>
+    </div>
+  </ng-template>
+</div>
