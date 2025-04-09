@@ -9,7 +9,7 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 })
 export class UserService {
 
-  API: string = 'http://localhost:8080/user';
+  API: string = '/api/user';
   http = inject(HttpClient);
 
   constructor() { }

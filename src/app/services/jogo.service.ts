@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class JogoService {
 
-  API: string = 'http://localhost:8080/pontos';
+  API: string = '/api/pontos';
   http = inject(HttpClient);
 
   constructor() { }

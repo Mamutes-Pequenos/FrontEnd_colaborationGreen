@@ -8,7 +8,7 @@ import { Sala } from '../models/sala';
 })
 export class SalasService {
 
-  API: string = 'http://localhost:8080/sala';
+  API: string = '/api/sala';
   http = inject(HttpClient);
 
   constructor() { }
