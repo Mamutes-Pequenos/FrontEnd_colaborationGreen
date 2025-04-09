@@ -1,0 +1,37 @@
+name: CI/CD Angular App
+
+on:
+  push:
+    branches:
+      - developer   # Executa quando houver push na branch principal
+  pull_request:
+    branches:
+      - developer   # Executa quando houver pull request na branch principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Pode ser windows-latest ou macos-latest dependendo do ambiente que você precisa
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2  # Faz checkout do código do repositório
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'  # Defina a versão que você usa no seu projeto
+
+      - name: Install dependencies
+        run: npm install  # Instala as dependências do projeto
+
+      - name: Build Angular project
+        run: npm run build --prod  # Compila a aplicação para produção
+
+      - name: Run tests
+        run: npm test -- --watch=false --browsers=ChromeHeadlessCI  # Executa os testes unitários (opcional)
+
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/developer'  # Só executa no branch principal
+        run: |
+          # Comandos para fazer o deploy (exemplo com Firebase)
+          firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}  # Substitua para o seu método de deploy
