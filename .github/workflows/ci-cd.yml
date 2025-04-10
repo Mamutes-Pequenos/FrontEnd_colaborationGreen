@@ -27,9 +27,6 @@ jobs:
       - name: Build Angular project
         run: npm run build --prod  # Compila a aplicação para produção
 
-      # - name: Run tests
-      #   run: npm test -- --watch=false --browsers=ChromeHeadlessCI  # Executa os testes unitários (opcional)
-
   # Job para build e push no Docker
   build-and-push:
     needs: build
@@ -82,3 +79,4 @@ jobs:
             docker-compose up -d || exit 1;
   
             echo 'Deploy concluído com sucesso!'
+          "
