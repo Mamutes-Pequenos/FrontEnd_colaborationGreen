@@ -30,8 +30,4 @@ jobs:
       - name: Run tests
         run: npm test -- --watch=false --browsers=ChromeHeadlessCI  # Executa os testes unitários (opcional)
 
-      - name: Deploy to production
-        if: github.ref == 'refs/heads/developer'  # Só executa no branch principal
-        run: |
-          # Comandos para fazer o deploy (exemplo com Firebase)
-          firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}  # Substitua para o seu método de deploy
+      
