@@ -29,5 +29,50 @@ jobs:
 
       # - name: Run tests
       #   run: npm test -- --watch=false --browsers=ChromeHeadlessCI  # Executa os testes unitários (opcional)
+# Job para build e push no Docker
+  build-and-push:
+    needs: build
+    runs-on: ubuntu-latest
 
-      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Docker image
+        run: docker build -t arthurbusanello/angular-app:latest .
+
+      - name: Push Docker image
+        run: docker push arthurbusanello/angular-app:latest
+
+  # Job de deploy para a VM via SSH
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install sshpass
+      run: sudo apt-get update && sudo apt-get install -y sshpass  # Instala o sshpass para permitir conexão SSH via senha
+
+    - name: SSH into VM using frontpipeline credentials
+      run: |
+        # Criação do diretório remoto e execução de um comando na VM usando sshpass
+        sshpass -p 'pipeline' ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
+          # Navegar para o diretório da aplicação
+          cd /home/frontpipeline/myapp || exit 1;
+          
+          # Fazer pull das atualizações mais recentes do código (caso use git)
+          git pull origin developer || exit 1;
+          
+          # Parar e remover containers antigos (caso use Docker)
+          docker-compose down || exit 1;
+          
+          # Subir os containers novamente com a versão mais recente
+          docker-compose up -d || exit 1;
+          
+          echo 'Deploy concluído com sucesso!'"
