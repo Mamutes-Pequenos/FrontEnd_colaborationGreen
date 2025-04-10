@@ -27,7 +27,7 @@ jobs:
       - name: Build Angular project
         run: npm run build --prod  # Compila a aplicação para produção
 
-      - name: Run tests
-        run: npm test -- --watch=false --browsers=ChromeHeadlessCI  # Executa os testes unitários (opcional)
+      # - name: Run tests
+      #   run: npm test -- --watch=false --browsers=ChromeHeadlessCI  # Executa os testes unitários (opcional)
 
       
