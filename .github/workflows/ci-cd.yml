@@ -3,10 +3,10 @@ name: CI/CD Angular App
 on:
   push:
     branches:
-      - developer   # Executa quando houver push na branch principal
+      - developer   # Executa quando houver push na branch 'developer'
   pull_request:
     branches:
-      - developer   # Executa quando houver pull request na branch principal
+      - developer   # Executa quando houver pull request na branch 'developer'
 
 jobs:
   build:
@@ -29,7 +29,8 @@ jobs:
 
       # - name: Run tests
       #   run: npm test -- --watch=false --browsers=ChromeHeadlessCI  # Executa os testes unitários (opcional)
-# Job para build e push no Docker
+
+  # Job para build e push no Docker
   build-and-push:
     needs: build
     runs-on: ubuntu-latest
@@ -56,23 +57,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install sshpass
-      run: sudo apt-get update && sudo apt-get install -y sshpass  # Instala o sshpass para permitir conexão SSH via senha
+      - name: Checkout repository
+        uses: actions/checkout@v2  # Faz o checkout do código no repositório
 
-    - name: SSH into VM using frontpipeline credentials
-      run: |
-        # Criação do diretório remoto e execução de um comando na VM usando sshpass
-        sshpass -p 'pipeline' ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
-          # Navegar para o diretório da aplicação
-          cd /home/frontpipeline/myapp || exit 1;
-          
-          # Fazer pull das atualizações mais recentes do código (caso use git)
-          git pull origin developer || exit 1;
-          
-          # Parar e remover containers antigos (caso use Docker)
-          docker-compose down || exit 1;
-          
-          # Subir os containers novamente com a versão mais recente
-          docker-compose up -d || exit 1;
-          
-          echo 'Deploy concluído com sucesso!'"
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3  # Configura o SSH Agent com a chave privada
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usando o segredo com a chave privada
+
+      - name: SSH into VM using frontpipeline credentials
+        run: |
+          # Conectar via SSH e executar comandos na VM
+          ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
+            # Navegar para o diretório da aplicação
+            cd /home/frontpipeline/myapp || exit 1;
+  
+            # Fazer pull das atualizações mais recentes do código (caso use git)
+            git pull origin developer || exit 1;
+  
+            # Parar e remover containers antigos (caso use Docker)
+            docker-compose down || exit 1;
+  
+            # Subir os containers novamente com a versão mais recente
+            docker-compose up -d || exit 1;
+  
+            echo 'Deploy concluído com sucesso!'
+          "
