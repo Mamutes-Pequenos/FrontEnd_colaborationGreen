@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Pode ser windows-latest ou macos-latest dependendo do ambiente que você precisa
+    runs-on: ubuntu-latest  # Pode ser windows-latest ou macos-latest dependendo do ambiente
 
     steps:
       - name: Check out repository
@@ -26,9 +26,6 @@ jobs:
 
       - name: Build Angular project
         run: npm run build --prod  # Compila a aplicação para produção
-
-      # - name: Run tests
-      #   run: npm test -- --watch=false --browsers=ChromeHeadlessCI  # Executa os testes unitários (opcional)
 
   # Job para build e push no Docker
   build-and-push:
@@ -64,11 +61,13 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3  # Configura o SSH Agent com a chave privada
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usando o segredo com a chave privada
-          ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
+
+      - name: Set up SSH passphrase
+        run: echo "${{ secrets.SSH_PASSPHRASE }}" > ~/.ssh/ssh_passphrase  # Adiciona a passphrase à variável SSH_ASKPASS
 
       - name: SSH into VM using frontpipeline credentials
         run: |
-          # Conectar via SSH e executar comandos na VM
+          export SSH_ASKPASS=~/.ssh/ssh_passphrase  # Configura a variável SSH_ASKPASS
           ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
             # Navegar para o diretório da aplicação
             cd /home/frontpipeline/myapp || exit 1;
