@@ -60,10 +60,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2  # Faz o checkout do código no repositório
 
-      - name: Set up SSH key
+      - name: Set up SSH key with passphrase
         uses: webfactory/ssh-agent@v0.5.3  # Configura o SSH Agent com a chave privada
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usando o segredo com a chave privada
+          ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
 
       - name: SSH into VM using frontpipeline credentials
         run: |
