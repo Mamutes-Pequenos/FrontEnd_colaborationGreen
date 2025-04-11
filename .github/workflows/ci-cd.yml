@@ -67,10 +67,7 @@ jobs:
           # Conectar via SSH e executar comandos na VM
           ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
             # Navegar para o diretório da aplicação
-            cd /home/frontpipeline/myapp || exit 1;
-  
-            # Fazer pull das atualizações mais recentes do código (caso use git)
-            git pull origin developer || exit 1;
+            cd /home/emili/~/frontend/frontMensal || exit 1;
   
             # Parar e remover containers antigos (caso use Docker)
             docker-compose down || exit 1;
