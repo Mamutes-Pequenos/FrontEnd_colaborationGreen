@@ -43,10 +43,10 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t arthurbusanello/angular-app:latest .
+        run: docker build -t heshambr/frontend:latest .
 
       - name: Push Docker image
-        run: docker push arthurbusanello/angular-app:latest
+        run: docker push heshambr/frontend:latest
 
   # Job de deploy para a VM via SSH
   deploy:
