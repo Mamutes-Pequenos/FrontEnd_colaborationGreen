@@ -44,7 +44,10 @@ jobs:
 
       - name: Remove old Docker image (if exists)
         run: |
-          docker pull heshambr/frontend:latest || echo "No previous image to remove"
+          # Parar e remover container atual
+          docker-compose down || echo "No container running to remove"
+
+          # Remover a imagem antiga (caso exista)
           docker rmi heshambr/frontend:latest || echo "No previous image to remove"
 
       - name: Build Docker image
@@ -76,6 +79,9 @@ jobs:
   
             # Parar e remover containers antigos (caso use Docker)
             docker-compose down || exit 1;
+  
+            # Remover a imagem antiga
+            docker rmi heshambr/frontend:latest || echo 'No previous image to remove';
   
             # Subir os containers novamente com a versão mais recente
             docker-compose up -d || exit 1;
