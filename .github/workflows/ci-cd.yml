@@ -42,6 +42,11 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Remove old Docker image (if exists)
+        run: |
+          docker pull heshambr/frontend:latest || echo "No previous image to remove"
+          docker rmi heshambr/frontend:latest || echo "No previous image to remove"
+
       - name: Build Docker image
         run: docker build -t heshambr/frontend:latest .
 
