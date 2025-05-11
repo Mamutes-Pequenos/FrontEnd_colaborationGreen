@@ -57,34 +57,35 @@ jobs:
         run: docker push heshambr/frontend:latest
 
   # Job de deploy para a VM via SSH
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
+#  deploy:
+#    needs: build-and-push
+#    runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2  # Faz o checkout do código no repositório
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2  # Faz o checkout do código no repositório
 
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.5.3  # Configura o SSH Agent com a chave privada
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usando o segredo com a chave privada
+#      - name: Set up SSH key
+#        uses: webfactory/ssh-agent@v0.5.3  # Configura o SSH Agent com a chave privada
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usando o segredo com a chave privada
 
-      - name: SSH into VM using frontpipeline credentials
-        run: |
-          # Conectar via SSH e executar comandos na VM
-          ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
-            # Navegar para o diretório da aplicação
-            cd /home/emili/~/frontend/frontMensal || exit 1;
+#      - name: SSH into VM using frontpipeline credentials
+#        run: |
+#          # Conectar via SSH e executar comandos na VM
+#          ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
+#            # Navegar para o diretório da aplicação
+#            cd /home/emili/~/frontend/frontMensal || exit 1;
   
             # Parar e remover containers antigos (caso use Docker)
-            docker-compose down || exit 1;
-  
-            # Remover a imagem antiga
-            docker rmi heshambr/frontend:latest || echo 'No previous image to remove';
-  
-            # Subir os containers novamente com a versão mais recente
-            docker-compose up -d || exit 1;
-  
-            echo 'Deploy concluído com sucesso!'
-          "
+#            docker-compose down || exit 1;
+#  
+#            # Remover a imagem antiga
+#            docker rmi heshambr/frontend:latest || echo 'No previous image to remove';
+#  
+#            # Subir os containers novamente com a versão mais recente
+#            docker-compose up -d || exit 1;
+#  
+#            echo 'Deploy concluído com sucesso!'
+#          "
+#
