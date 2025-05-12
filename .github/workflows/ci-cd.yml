@@ -81,13 +81,12 @@ jobs:
       - name: Deploy para Kubernetes
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            CLUSTER_NAME=semanal-prod
-          else
-            CLUSTER_NAME=semanal-homol
+            gcloud container clusters get-credentials semanal-prod --region us-east1 --project $PROJECT_ID
+            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" == "refs/heads/developer" ]]; then
+            gcloud container clusters get-credentials semanal-homol --region us-central1 --project $PROJECT_ID
+            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA}
           fi
-
-          gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_LOCATION --project $PROJECT_ID
-          kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA}
 
   # Job de deploy para a VM via SSH
 #  deploy:
