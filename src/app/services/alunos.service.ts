@@ -8,7 +8,7 @@ import { Aluno } from '../models/aluno';
 })
 export class AlunosService {
 
-  API: string = 'http://localhost:8080/aluno';
+  API: string = '/api/aluno';
   http = inject(HttpClient);
 
   constructor() { }

@@ -1,0 +1,124 @@
+name: CI/CD Angular App
+
+on:
+  push:
+    branches:
+      - developer   # Executa quando houver push na branch 'developer'
+      - main
+      - 'release-*'
+
+env:
+  IMAGE_NAME: heshambr/frontend
+  PROJECT_ID: corded-racer-455623-i7
+  CLUSTER_LOCATION: us-central1
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Pode ser windows-latest ou macos-latest dependendo do ambiente que você precisa
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2  # Faz checkout do código do repositório
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'  # Defina a versão que você usa no seu projeto
+
+      - name: Install dependencies
+        run: npm install  # Instala as dependências do projeto
+
+      - name: Build Angular project
+        run: npm run build --prod  # Compila a aplicação para produção
+
+  # Job para build e push no Docker
+  build-and-push:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+        #GKE GCP
+      - name: Autenticar no Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      #- name: Remove old Docker image (if exists)
+      # run: |
+      #    # Parar e remover container atual
+      #    docker-compose down || echo "No container running to remove"
+
+          # Remover a imagem antiga (caso exista)
+      #    docker rmi heshambr/frontend:latest || echo "No previous image to remove"
+
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME:${GITHUB_SHA} .
+
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME:${GITHUB_SHA}
+
+      #INSTALA AUTH
+      - name: Instalar Google Cloud SDK com gke-gcloud-auth-plugin
+        run: |
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | \
+            sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+          sudo mkdir -p /usr/share/keyrings
+          curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+            sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+          sudo apt-get update
+          sudo apt-get install -y google-cloud-sdk kubectl google-cloud-sdk-gke-gcloud-auth-plugin
+
+      - name: Deploy para Kubernetes
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            CLUSTER_NAME=semanal-prod
+          else
+            CLUSTER_NAME=semanal-homol
+          fi
+
+          gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_LOCATION --project $PROJECT_ID
+          kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA}
+
+  # Job de deploy para a VM via SSH
+#  deploy:
+#    needs: build-and-push
+#    runs-on: ubuntu-latest
+
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2  # Faz o checkout do código no repositório
+
+#      - name: Set up SSH key
+#        uses: webfactory/ssh-agent@v0.5.3  # Configura o SSH Agent com a chave privada
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usando o segredo com a chave privada
+
+#      - name: SSH into VM using frontpipeline credentials
+#        run: |
+#          # Conectar via SSH e executar comandos na VM
+#          ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
+#            # Navegar para o diretório da aplicação
+#            cd /home/emili/~/frontend/frontMensal || exit 1;
+  
+            # Parar e remover containers antigos (caso use Docker)
+#            docker-compose down || exit 1;
+#  
+#            # Remover a imagem antiga
+#            docker rmi heshambr/frontend:latest || echo 'No previous image to remove';
+#  
+#            # Subir os containers novamente com a versão mais recente
+#            docker-compose up -d || exit 1;
+#  
+#            echo 'Deploy concluído com sucesso!'
+#          "
+#

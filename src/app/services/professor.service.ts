@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ProfessorService {
 
-  API: string = 'http://localhost:8080/professor';
+  API: string = '/api/professor';
   http = inject(HttpClient);
 
   constructor() { }
