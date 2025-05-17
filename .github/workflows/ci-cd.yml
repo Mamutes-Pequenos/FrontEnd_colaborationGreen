@@ -73,9 +73,9 @@ jobs:
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
             gcloud container clusters get-credentials semanal-prod --region us-east1 --project $PROJECT_ID
             kubectl apply -f K8s/ --namespace=productionfront
-            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n productionFront
+            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n productionfront
           elif [[ "${GITHUB_REF}" == "refs/heads/developer" ]]; then
             gcloud container clusters get-credentials semanal-homol --region us-central1 --project $PROJECT_ID
             kubectl apply -f K8s/ --namespace=stagefront
-            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n stageFront
+            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n stagefront
           fi
