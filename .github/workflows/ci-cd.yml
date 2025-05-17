@@ -3,15 +3,13 @@ name: CI/CD Angular App
 on:
   push:
     branches:
-      - developer   # Executa quando houver push na branch 'developer'
+      - developer  
       - main
       - 'release-*'
 
 env:
   IMAGE_NAME: heshambr/frontend
   PROJECT_ID: corded-racer-455623-i7
-  CLUSTER_LOCATION: us-central1
-
 
 jobs:
   build:
@@ -53,14 +51,6 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      #- name: Remove old Docker image (if exists)
-      # run: |
-      #    # Parar e remover container atual
-      #    docker-compose down || echo "No container running to remove"
-
-          # Remover a imagem antiga (caso exista)
-      #    docker rmi heshambr/frontend:latest || echo "No previous image to remove"
-
       - name: Build Docker image
         run: docker build -t $IMAGE_NAME:${GITHUB_SHA} .
 
@@ -82,42 +72,10 @@ jobs:
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
             gcloud container clusters get-credentials semanal-prod --region us-east1 --project $PROJECT_ID
-            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA}
+            kubectl apply -f K8s/ --namespace=production
+            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n productionFront
           elif [[ "${GITHUB_REF}" == "refs/heads/developer" ]]; then
             gcloud container clusters get-credentials semanal-homol --region us-central1 --project $PROJECT_ID
-            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA}
+            kubectl apply -f K8s/ --namespace=stage
+            kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n stageFront
           fi
-
-  # Job de deploy para a VM via SSH
-#  deploy:
-#    needs: build-and-push
-#    runs-on: ubuntu-latest
-
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v2  # Faz o checkout do código no repositório
-
-#      - name: Set up SSH key
-#        uses: webfactory/ssh-agent@v0.5.3  # Configura o SSH Agent com a chave privada
-#        with:
-#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Usando o segredo com a chave privada
-
-#      - name: SSH into VM using frontpipeline credentials
-#        run: |
-#          # Conectar via SSH e executar comandos na VM
-#          ssh -o StrictHostKeyChecking=no frontpipeline@35.211.244.181 "
-#            # Navegar para o diretório da aplicação
-#            cd /home/emili/~/frontend/frontMensal || exit 1;
-  
-            # Parar e remover containers antigos (caso use Docker)
-#            docker-compose down || exit 1;
-#  
-#            # Remover a imagem antiga
-#            docker rmi heshambr/frontend:latest || echo 'No previous image to remove';
-#  
-#            # Subir os containers novamente com a versão mais recente
-#            docker-compose up -d || exit 1;
-#  
-#            echo 'Deploy concluído com sucesso!'
-#          "
-#
