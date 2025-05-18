@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend-service
-  namespace: stagefront
+  namespace: productionfront
 spec:
   type: ExternalName
   externalName: backend-service.stageback.svc.cluster.local
