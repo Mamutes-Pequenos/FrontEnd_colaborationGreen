@@ -5,7 +5,7 @@ metadata:
   namespace: productionfront
 spec:
   type: ExternalName
-  externalName: backend-service.stageback.svc.cluster.local
+  externalName: backend-service.productionback.svc.cluster.local
   ports:
     - port: 8080
       targetPort: 8080
