@@ -68,15 +68,30 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-cloud-sdk kubectl google-cloud-sdk-gke-gcloud-auth-plugin
 
+      - name: Definir cluster e namespace de destino
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+            echo "CLUSTER_NAME=cluster-semanal-prod" >> $GITHUB_ENV
+            echo "CLUSTER_LOCATION=us-central1" >> $GITHUB_ENV
+            echo "BACK_NAMESPACE=prodback" >> $GITHUB_ENV
+            echo "NAMESPACE=prodfront" >> $GITHUB_ENV
+          else
+            echo "CLUSTER_NAME=cluster-semanal-homol" >> $GITHUB_ENV
+            echo "CLUSTER_LOCATION=us-east1" >> $GITHUB_ENV
+            echo "BACK_NAMESPACE=homolback" >> $GITHUB_ENV
+            echo "NAMESPACE=homolfront" >> $GITHUB_ENV
+          fi
+
       - name: Deploy para Kubernetes
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            gcloud container clusters get-credentials cluster-semanal-prod --region us-central1 --project $PROJECT_ID
-
+            gcloud container clusters get-credentials cluster-semanal-prod --region us-central1-b --project $PROJECT_ID
+            kubectl get ns $NAMESPACE || kubectl create ns $NAMESPACE
             kubectl apply -f K8s/ --namespace=prodfront
             kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n prodfront
           elif [[ "${GITHUB_REF}" == "refs/heads/developer" ]]; then
-            gcloud container clusters get-credentials cluster-semanal-homol --region us-east1 --project $PROJECT_ID
+            gcloud container clusters get-credentials cluster-semanal-homol --region us-east1-b --project $PROJECT_ID
+            kubectl get ns $NAMESPACE || kubectl create ns $NAMESPACE
             kubectl apply -f K8s/ --namespace=homolfront
             kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n homolfront
           fi
