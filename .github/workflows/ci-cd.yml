@@ -81,7 +81,7 @@ jobs:
             echo "BACK_NAMESPACE=homolback" >> $GITHUB_ENV
             echo "NAMESPACE=homolfront" >> $GITHUB_ENV
           fi
-
+      #vai se foder!!!
       - name: Deploy para Kubernetes
         run: |
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
