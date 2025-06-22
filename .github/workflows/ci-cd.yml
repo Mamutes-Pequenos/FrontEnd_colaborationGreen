@@ -87,11 +87,11 @@ jobs:
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
             gcloud container clusters get-credentials cluster-semanal-prod --region us-central1-b --project $PROJECT_ID
             kubectl get ns $NAMESPACE || kubectl create ns $NAMESPACE
-            kubectl apply -f K8s/ --namespace=prodfront
+            kubectl apply -f K8s/ 
             kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n prodfront
           elif [[ "${GITHUB_REF}" == "refs/heads/developer" ]]; then
             gcloud container clusters get-credentials cluster-semanal-homol --region us-east1-b --project $PROJECT_ID
             kubectl get ns $NAMESPACE || kubectl create ns $NAMESPACE
-            kubectl apply -f K8s/ --namespace=homolfront
+            kubectl apply -f K8s/ 
             kubectl set image deployment/frontend frontend=$IMAGE_NAME:${GITHUB_SHA} -n homolfront
           fi
