@@ -2,11 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
+  namespace: homolfront
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: frontend
   ports:
   - port: 80
     targetPort: 80
-    nodePort: 30080
