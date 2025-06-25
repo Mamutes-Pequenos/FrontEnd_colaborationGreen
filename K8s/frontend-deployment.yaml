@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
+  namespace: prodfront
 spec:
   replicas: 1
   selector:
@@ -17,3 +18,11 @@ spec:
         image: heshambr/frontend:latest
         ports:
         - containerPort: 80
+        resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+              ephemeral-storage: "250Mi"
+            limits:
+              memory: "1Gi"
+              ephemeral-storage: "500Mi"

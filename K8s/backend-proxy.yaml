@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend-service
-  namespace: productionfront
+  namespace: prodfront
 spec:
   type: ExternalName
-  externalName: backend-service.productionback.svc.cluster.local
+  externalName: backend-service.homolback.svc.cluster.local
   ports:
     - port: 8080
       targetPort: 8080
