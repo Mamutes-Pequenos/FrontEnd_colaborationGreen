@@ -5,7 +5,7 @@ metadata:
   namespace: prodfront
 spec:
   type: ExternalName
-  externalName: backend-service.homolback.svc.cluster.local
+  externalName: backend-service.prodback.svc.cluster.local
   ports:
     - port: 8080
       targetPort: 8080
