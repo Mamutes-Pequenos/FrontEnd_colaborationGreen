@@ -9,7 +9,7 @@ on:
 
 env:
   IMAGE_NAME: heshambr/frontend
-  PROJECT_ID: corded-racer-455623-i7
+  PROJECT_ID: wise-coyote-463420-r7
 
 jobs:
   build:
